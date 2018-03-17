@@ -1,0 +1,5 @@
+.travis.yml
+Dockerfile
+povray-3.6.1.tar.bz2
+povray-3.6.1/
+megapov-1.2.1.tar.bz2
