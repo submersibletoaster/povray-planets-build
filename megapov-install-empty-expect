@@ -1,0 +1,4 @@
+#!/bin/bash
+empty -f -L /tmp/empty.megapov.log -i in -o out \
+  /bin/bash ./megapov-1.2.1/install
+empty -w -v -i out -o in "/S): " "S" "/W): " "W"

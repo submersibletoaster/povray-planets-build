@@ -4,13 +4,15 @@ ENV COMPILED_BY="Andrew Bramble <bramble.andrew@gmail.com>"
 
 
 # Dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  bzip2 \
-  cpanminus \
-  g++ \
-  git \
-  make \
-  wget
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    bzip2 \
+    cpanminus \
+    empty-expect \
+    g++ \
+    git \
+    make \
+    wget
 
 # Download and verify tarballs
 ENV MEGAPOV_TARBALL="http://megapov.inetart.net/packages/unix/megapov-1.2.1-linux-amd64.tar.bz2"
@@ -32,9 +34,10 @@ RUN chdir /tmp \
   && rm -rf /tmp/$(basename ${POVRAY_TARBALL})
 
 # Install megapov (goes to /usr/local)
+COPY ./megapov-install-empty-expect /tmp/
 RUN chdir /tmp \
   && tar xjf /tmp/$(basename ${MEGAPOV_TARBALL}) \
-  && script -c './megapov-1.2.1/install' < /dev/null \
+  && ./megapov-install-empty-expect \
   && rm -f /tmp/$(basename ${MEGAPOV_TARBALL})
 
 # Used for cpan Imager::File::PNG , breaks povray compilation if installed early
