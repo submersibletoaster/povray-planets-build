@@ -2,3 +2,11 @@
 empty -f -L /tmp/empty.megapov.log -i in -o out \
   /bin/bash ./megapov-1.2.1/install
 empty -w -v -i out -o in "/S): " "S" "/W): " "W"
+answers=$?
+if [ $answers -eq '1' ]
+then
+  exit 0
+else
+  cat /tmp/empty.megapov.log
+  exit $answers
+fi

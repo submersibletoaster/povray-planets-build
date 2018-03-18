@@ -21,7 +21,7 @@ COPY ./CHECKSUMS /
 WORKDIR /tmp
 RUN wget ${MEGAPOV_TARBALL}
 RUN wget ${POVRAY_TARBALL}
-RUN chdir /tmp && shasum -a 256 -c /CHECKSUMS
+RUN shasum -a 256 -c /CHECKSUMS
 
 
 # Build povray
@@ -37,8 +37,7 @@ RUN chdir /tmp \
 COPY ./megapov-install-empty-expect /tmp/
 RUN chdir /tmp \
   && tar xjf /tmp/$(basename ${MEGAPOV_TARBALL}) \
-  && ./megapov-install-empty-expect \
-  && rm -f /tmp/$(basename ${MEGAPOV_TARBALL})
+  && ./megapov-install-empty-expect
 
 # Used for cpan Imager::File::PNG , breaks povray compilation if installed early
 RUN apt-get install -y --no-install-recommends \
