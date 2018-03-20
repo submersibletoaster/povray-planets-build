@@ -7,6 +7,7 @@ ENV COMPILED_BY="Andrew Bramble <bramble.andrew@gmail.com>"
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     bzip2 \
+    ca-certificates \
     cpanminus \
     empty-expect \
     g++ \
@@ -49,6 +50,15 @@ RUN chdir / \
   && cpanm --installdeps .
 
 
+# Vic 2d
+RUN apt-get install -y --no-install-recommends \
+  gfortran
+
+#COPY vic2d/ /tmp/vic2d
+RUN git clone https://github.com/submersibletoaster/vic2d.git \
+  && chdir vic2d \
+  && make \
+  && cp /tmp/vic2d/vic2d /usr/local/bin/
 
 
 # dump the git repo (without .git) into /opt/povray-planets
