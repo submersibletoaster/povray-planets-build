@@ -1,4 +1,4 @@
-FROM ubuntu:xenial as build-deps
+FROM debian:stretch-slim as build-deps
 
 ENV COMPILED_BY="Andrew Bramble <bramble.andrew@gmail.com>"
 
@@ -29,7 +29,7 @@ RUN shasum -a 256 -c /CHECKSUMS
 RUN chdir /tmp \
   && tar xjf /tmp/$(basename ${POVRAY_TARBALL}) \
   && cd povray-3.6.1 \
-  && ./configure --disable-io-restrictions COMPILED_BY="${COMPILED_BY}" \
+  && ./configure --disable-io-restrictions --disable-shared --enable-strip COMPILED_BY="${COMPILED_BY}" \
   && make check \
   && make install \
   && rm -rf /tmp/$(basename ${POVRAY_TARBALL})
@@ -42,7 +42,7 @@ RUN chdir /tmp \
 
 # Used for cpan Imager::File::PNG , breaks povray compilation if installed early
 RUN apt-get install -y --no-install-recommends \
-  libpng16-dev
+  libpng-dev
 
 # Add perl Dependencies
 COPY ./cpanfile /
